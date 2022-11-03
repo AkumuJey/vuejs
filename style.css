@@ -1,0 +1,8 @@
+.title {
+    color: blueviolet;
+    background-color: yellow;
+}
+.btn {
+    display: block;
+    padding: 10px;
+}

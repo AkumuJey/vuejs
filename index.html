@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script type="importmap">
+        {
+          "imports": {
+            "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+          }
+        }
+    </script>
+    <script type="module">
+        import { createApp } from 'vue' 
+        createApp({
+          data() {
+            return {
+              count: 0,
+              message: "Hello World",
+              titleClass: "title",
+              buttonClass: "btn",
+              currentTime: new Date(),
+              text: "",
+              awesome: true,
+              newToDos: '',
+              toDos: [
+                "Javascript",
+                "Python",
+                "CSS",
+                "HTML"
+              ],
+              todoId: 1,
+              todoData: "null"
+            }
+          },
+          methods: {
+            increment() {
+               this.count++
+            },
+            decrement() {
+              this.count--
+            },
+            nowTime() {
+              d = new Date()
+              setInterval(() => {
+                return d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds()
+              }, 1000)
+            },
+            toggle() {
+              this.awesome = !this.awesome
+            },
+            async fetchData() {
+            this.todoData = null
+            const res = await fetch(
+            `https://jsonplaceholder.typicode.com/todos/${this.todoId}`
+            )
+            this.todoData = await res.json()
+            }
+        },
+        mounted(){
+          this.fetchData()
+        },
+        watch() {
+          this.todoId.fetchData()
+        }
+      }).mount('#app')
+        </script>
+        <div id="app">
+            <button :class="buttonClass" @click="increment">{{ count }}</button>
+            <button :class="buttonClass" @click="decrement">{{ count }}</button>
+            <button :class="buttonClass" @click="toggle">Change</button>
+            <p :class="titleClass">{{ message }}</p>
+            <p :class="titleClass">{{ currentTime.getHours() }}:{{ currentTime.getMinutes() }}:{{ currentTime.getSeconds() }}</p>
+            <div>
+              <label for="fname">Enter Your name:</label>
+              <input v-model="text" type="text" placeholder="Type here">
+            </div>
+            <p>{{ text }}</p>
+            <p v-if="awesome">Javascript is Fun</p>
+            <p v-else>Javascript is Boring</p>
+            <ul>
+              <li v-for="toDo in toDos">
+                {{ toDo }}
+                <button>X</button>
+              </li>
+            </ul>
+            <p v-if="!todoData">Loading...</p>
+            <p v-else>todoData</p>
+        </div>
+    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+
+</body>
+</html>
